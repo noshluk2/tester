@@ -1,0 +1,22 @@
+<launch>
+
+<arg name="model" default="$(find coverage_drone)/urdf/hector_camera_laser.urdf.xacro" />
+<arg name="x_pos"     default="0"/>
+<arg name="y_pos"     default="-1"/>
+<arg name="z_pos"     default="0.4"/>
+
+
+
+<group ns="SD">
+  <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+    <arg name="name" default="drone_2"/>
+    <arg name="tf_prefix" value="drone_2"/>
+    <arg name="world_frame" value="world_"/>
+    <arg name="model" value="$(arg model)" />
+    <arg name= "x" value="$(arg x_pos)"/>
+    <arg name= "y" value="$(arg y_pos)"/>
+    <arg name= "z" value="$(arg z_pos)"/>
+  </include>
+  </group>
+
+</launch>

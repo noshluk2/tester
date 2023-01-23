@@ -1,0 +1,32 @@
+<launch>
+              <!--  Bringing Drone into Gazebo and rviz simulations -->
+  <include file="$(find coverage_drone)/launch/single_drone_a_gazebo_rviz.launch">
+    <arg name="rviz" default="true"/>
+    <arg name="config_file" default="$(find coverage_drone)/config/single_coverage.rviz"/>
+  </include>
+
+              <!--  making the Drone Hover -->
+  <node pkg="coverage_drone" type="hover_drone.py" name="hover" output="screen"/>
+
+
+              <!-- Running G mapping node -->
+  <include file="$(find coverage_drone)/launch/single_drone_b_mapping.launch">
+
+  </include>
+
+
+              <!-- Move base node -->
+  <include file="$(find coverage_drone)/launch/single_drone_c_move_base.launch">
+
+  </include>
+
+                <!-- Coverage Node -->
+  <node pkg="coverage_drone" type="coverage_node.py" name="coverage_node" output="screen"/>
+  <param name="marker_color" value="r"/>
+
+
+
+</launch>
+
+
+

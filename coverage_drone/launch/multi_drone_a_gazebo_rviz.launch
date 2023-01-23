@@ -1,0 +1,49 @@
+<launch>
+  <!-- Forest Model Path fixing -->
+  <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find coverage_drone)/models/forest"/>
+  <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find coverage_drone)/models/forest"/>
+<!--  Drone position arguments for spawning node and rviz configuration file  -->
+  <arg name="robot_name"  default="drone"/>
+  <arg name="x_pos"       default="0"/>
+  <arg name="y_pos"       default="0"/>
+  <arg name="z_pos"       default="0.4"/>
+  <arg name="model"       default="$(find coverage_drone)/urdf/hector_camera_laser.urdf.xacro" />
+  <arg name="rviz"        default="false"/>
+  <arg name="gazebo"      default="false"/>
+  <arg name="config_file" default="$(find coverage_drone)/config/sensors_check.rviz"/>
+
+
+<!-- Loading Warehouse World into Gazebo -->
+<group if="$(arg gazebo)">
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find coverage_drone)/worlds/forest.world"/>
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="true"/>
+  </include>
+</group>
+
+<group ns="$(arg robot_name)">
+  <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+    <arg name="name" default="$(arg robot_name)"/>
+    <arg name="tf_prefix" value="$(arg robot_name)"/>
+    <arg name="model" value="$(arg model)" />
+    <!-- <arg name="world_frame" value="robot_name/world"/> -->
+    <arg name= "x" value="$(arg x_pos)"/>
+    <arg name= "y" value="$(arg y_pos)"/>
+    <arg name= "z" value="$(arg z_pos)"/>
+  </include>
+
+  <node pkg="coverage_drone" type="hover_drone.py" name="hover" output="screen"/>
+
+</group>
+
+<!-- Spawning Drone with Custom Sensors -->
+<group if="$(arg rviz)">
+      <node pkg="rviz" type="rviz" name="visualizer" args="-d $(arg config_file)"/>
+  </group>
+
+</launch>

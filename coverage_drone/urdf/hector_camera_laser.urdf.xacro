@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<robot name="quadrotor" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="M_PI" value="3.1415926535897931" />
+    <xacro:include filename="$(find coverage_drone)/urdf/quadrotor_base.urdf.xacro" />
+    <xacro:quadrotor_base_macro />
+
+    <xacro:include filename="$(find coverage_drone)/sensors/hokuyo_utm30lx.urdf.xacro" />
+    <xacro:include filename="$(find coverage_drone)/sensors/asus_camera.urdf.xacro" />
+    <!-- <xacro:include filename="$(find coverage_drone)/sensors/generic_camera.urdf.xacro" /> -->
+
+    <!-- ////////////// Lidar utml20lx //////////////-->
+    <xacro:hokuyo_utm30lx name="lidar_sensor" parent="base_link" ros_topic="scan" update_rate="40"
+                          ray_count="360" scan_radius="7" min_angle="0" max_angle="360" visualize="false">
+      <origin xyz="0.0 0.0 -0.097" rpy="${M_PI} 0 0"/>
+    </xacro:hokuyo_utm30lx>
+
+    <!-- ////////////// Assus Depth Camera //////////////-->
+
+
+    <xacro:asus_camera name="asus_depth_camera" parent="base_link">
+      <origin xyz="0.1 0.0 -0.03" rpy="0 ${M_PI/9} 0"/>
+    </xacro:asus_camera>
+
+
+    <!-- ////////////// Front Camera //////////////-->
+
+    <!-- <xacro:generic_camera name="front_cam" parent="base_link" ros_topic="front_cam/image"
+                          cam_info_topic="front_cam/camera_info" update_rate="10" res_x="1280" res_y="1080"
+                          image_format="R8G8B8" hfov="90">
+      <origin xyz="0.4 0 0 " rpy="0 1.57 0"/>
+    </xacro:generic_camera> -->
+
+
+
+
+    <!-- //////////////// Downward Camera ////////////-->
+
+    <!-- <xacro:include filename="$(find hector_sensors_description)/urdf/generic_camera.urdf.xacro" />
+    <xacro:generic_camera name="downward_cam" parent="base_link" ros_topic="camera/image" cam_info_topic="camera/camera_info" update_rate="20" res_x="640" res_y="480" image_format="L8" hfov="100">
+      <origin xyz="0.4 0.0 -0.0" rpy="0 ${M_PI/2} 0"/>
+    </xacro:generic_camera> -->
+
+
+    <xacro:include filename="$(find hector_quadrotor_gazebo)/urdf/quadrotor_plugins.gazebo.xacro" />
+
+</robot>

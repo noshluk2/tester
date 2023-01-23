@@ -1,0 +1,41 @@
+<launch>
+  <!-- Warehouse Model Path fixing -->
+  <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find coverage_drone)/models/forest"/>
+  <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find coverage_drone)/models/forest"/>
+<!--  Drone position arguments for spawning node and rviz configuration file  -->
+<!-- <arg name="robot_1" default="drone_1"/> -->
+<arg name="x_pos"     default="0"/>
+<arg name="y_pos"     default="-1"/>
+<arg name="z_pos"      default="0.4"/>
+<arg name="model" default="$(find coverage_drone)/urdf/hector_camera_laser.urdf.xacro" />
+
+  <arg name="rviz" default="true"/>
+  <arg name="config_file" default="$(find coverage_drone)/config/sensors_check.rviz"/>
+<!-- Loading Warehouse World into Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find coverage_drone)/worlds/forest.world"/>
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="true"/>
+  </include>
+
+
+  <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+    <!-- <arg name="name" default="$(arg robot_1)"/> -->
+    <!-- <arg name="tf_prefix" value="luq"/> -->
+    <arg name="world_frame" value="world"/>
+    <arg name="model" value="$(arg model)" />
+    <arg name= "x" value="$(arg x_pos)"/>
+    <arg name= "y" value="$(arg y_pos)"/>
+    <arg name= "z" value="$(arg z_pos)"/>
+  </include>
+
+<!-- Spawning Drone with Custom Sensors -->
+<group if="$(arg rviz)">
+      <node pkg="rviz" type="rviz" name="visualizer" args="-d $(arg config_file)"/>
+  </group>
+
+</launch>

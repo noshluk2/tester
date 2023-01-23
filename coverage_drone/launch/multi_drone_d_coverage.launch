@@ -1,0 +1,73 @@
+<launch>
+              <!--  Bringing Drone into Gazebo and rviz simulations -->
+
+  <arg name="robot_name_1"        default="drone_1"/>
+  <arg name="robot_name_2"        default="drone_2"/>
+
+  <include file="$(find coverage_drone)/launch/multi_drone_a_gazebo_rviz.launch">
+    <arg name="rviz"              value="true"/>
+    <arg name="gazebo"            value="true"/>
+    <arg name="config_file"       value="$(find coverage_drone)/config/multi_gmapping.rviz"/>
+    <arg name="robot_name"        value="drone_1"/>
+    <arg name="y_pos"             value="-1"/>
+  </include>
+
+  <include file="$(find coverage_drone)/launch/multi_drone_a_gazebo_rviz.launch">
+    <arg name="robot_name"    value="drone_2"/>
+    <arg name="y_pos"         value="2"/>
+  </include>
+
+              <!-- Running G mapping node -->
+
+
+  <!-- <include file="$(find coverage_drone)/launch/multi_drone_b_mapping.launch">
+    <arg name="robot_name"        value="drone_1"/>
+  </include> -->
+  <arg name="base_frame_1"  default="drone_1/base_footprint"/>
+  <arg name="map_frame_1"  default="drone_1/map"/>
+
+  <arg name="odom_frame_1"  default="drone_1/world" />
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping_1" >
+
+    <param name="base_frame" value="$(arg base_frame_1)"/>
+    <param name="odom_frame" value="$(arg odom_frame_1)"/>
+    <param name="map_frame"  value="$(arg map_frame_1)"/>
+
+    <remap from="map" to="drone_1/map"/>
+    <remap from="scan" to="drone_1/scan"/>
+  </node>
+
+
+
+  <arg name="base_frame_2"  default="drone_2/base_footprint"/>
+  <arg name="map_frame_2"  default="drone_2/map"/>
+  <arg name="odom_frame_2"  default="drone_2/world" />
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping_2" >
+    <param name="base_frame" value="$(arg base_frame_2)"/>
+    <param name="odom_frame" value="$(arg odom_frame_2)"/>
+    <param name="map_frame"  value="$(arg map_frame_2)"/>
+
+    <remap from="map" to="drone_2/map"/>
+    <remap from="scan" to="drone_2/scan"/>
+  </node>
+
+
+              <!-- Move base node -->
+              <group ns="drone_1">
+
+
+  <include file="$(find coverage_drone)/launch/multi_drone_c_move_base.launch">
+    <arg name="base_frame_id"   value="$(arg base_frame_1)"/>
+    <arg name="global_frame_id" value="drone_1/map"/>
+    <arg name="laser_topic" value="drone_1/scan" />
+    <arg name="odom_topic" value="drone_1/ground_truth/state" />
+  </include>
+   </group>
+                <!-- Coverage Node -->
+  <!-- <node pkg="coverage_drone" type="coverage_node.py" name="coverage_node" output="screen"/> -->
+
+
+</launch>
+
+
+
