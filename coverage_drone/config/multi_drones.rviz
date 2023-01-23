@@ -7,6 +7,8 @@ Panels:
         - /Global Options1
         - /Status1
         - /Marker1
+        - /RobotModel2
+        - /RobotModel2/Links1
       Splitter Ratio: 0.5
     Tree Height: 713
   - Class: rviz/Selection
@@ -207,6 +209,22 @@ Visualization Manager:
         "": true
       Queue Size: 100
       Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+      Name: RobotModel
+      Robot Description: "robot_description\n"
+      TF Prefix: /SD/
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48

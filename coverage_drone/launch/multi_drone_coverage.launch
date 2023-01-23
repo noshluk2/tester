@@ -2,7 +2,7 @@
               <!--  Bringing Drone into Gazebo and rviz simulations -->
   <include file="$(find coverage_drone)/launch/single_drone_a_gazebo_rviz.launch">
     <arg name="rviz" default="true"/>
-    <arg name="config_file" default="$(find coverage_drone)/config/single_coverage.rviz"/>
+    <arg name="config_file" default="$(find coverage_drone)/config/multi_drones.rviz"/>
   </include>
 
               <!--  making the Drone Hover -->

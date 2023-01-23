@@ -2,7 +2,10 @@
 This repository contains source code for a simulation containing a drone for autonmous mapping of an area.
 
 ## Using this Repository
-
+### Drone Coverage Multi Robots
+```
+roslaunch coverage_drone multi_drone_coverage.launch
+```
 ### Launch Files
 - Bring drone in forests ( brings drone and world in Gazebo )
 ```
@@ -49,31 +52,7 @@ pip install scipy
 
 ```
 ---
-## Leaving at
-```
-Problem with multi Robot Move Base Frame error
-    - From map frame to Basefoot print
-        - We have only one frame for MAP but base footprints are different
-```
----
-## Understanding Problem
-- Turtlebot3 multi launch is having
-    - Individual map and odom frame then comes base footprint
-    - Link to explaining repo https://github.com/airuchen/multi_turtlebot3
-    ```
-    roslaunch turtlebot3_gazebo multi_turtlebot3_slam.launch ns:=tb3_0
-    ```
-- In our scenario we have
-    - Single map and world frame.
 
-
-- To write frames to opened directory in termianl
-    ```
-    rosrun tf2_tools view_frames.py
-    ```
-## ideas
-- Run single drone with TF_PREFIX till slam navigation
-    - ind out how to rename world to base footprint transform of ground_tf_publisher
 ## Resources
 - https://github.com/RAFALAMAO/hector-quadrotor-noetic
 - https://www.youtube.com/watch?v=-2IWfZjqoNc&ab_channel=RAFALAMAO

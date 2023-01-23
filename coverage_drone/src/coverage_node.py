@@ -279,7 +279,7 @@ def waypoint_motion():
             print("Spawning Second Drone")
 
             # Launching second drone
-            subprocess.Popen(["roslaunch", "coverage_drone", "spawn_drone.launch", f"x_pos:={px[i]}", f"y_pos:={py[i]}"])
+            subprocess.Popen(["roslaunch", "coverage_drone", "spawn_drone_second.launch", f"x_pos:={px[i]}", f"y_pos:={py[i]}"])
             subprocess.Popen(["rosrun", "coverage_drone", "resetting.bash"])
 
         client.send_goal(goal)
